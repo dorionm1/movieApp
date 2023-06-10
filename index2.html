@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      label {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <form onsubmit="return false">
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" minlength="2" /><br /><br />
+      <label for="rating">Rating(0-10) </label>
+      <input
+        type="range"
+        min="0"
+        max="10"
+        value="0"
+        id="rating"
+        oninput="this.nextElementSibling.value = this.value"
+      />
+      <output>0</output>
+      <input type="submit" id="submit" value="Submit" />
+    </form>
+    <ol></ol>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script>
+      function validateStringLength(str, len) {
+        return str.length >= len;
+      }
+
+      $("#submit").on("click", function () {
+        let title = $("#title").val();
+        if (!validateStringLength(title, 2)) {
+          return;
+        }
+        let rating = $("#rating").val();
+        let movietItem = $("<li>").attr("id", "movie");
+        let titleElement = $("<b>").text("Title: ");
+        let ratingELement = $("<b>").text("Rating: ");
+        let titleVal = $("<span>").text(title);
+        let ratingVal = $("<span>").text(rating);
+        let removeButton = $("<button>").attr("id", "button").text("Remove");
+
+        movietItem.append(
+          titleElement,
+          titleVal,
+          " ",
+          ratingELement,
+          ratingVal,
+          " ",
+          removeButton
+        );
+        $("ol").append(movietItem);
+        $("#title").val("");
+        $("#rating").val("0");
+        $("output").val("0");
+      });
+
+      $("ol").on("click", "#button", function () {
+        $(this).parent().remove();
+      });
+    </script>
+  </body>
+</html>
